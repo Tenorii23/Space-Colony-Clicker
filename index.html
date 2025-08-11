@@ -3,111 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Space Colony Clicker - Galactic Expansion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
-        <!-- Background stars -->
-    <div class="stars"></div>
-    
-    <div class="container">
-        <header>
-            <h1>SPACE COLONY CLICKER</h1>
-            <p class="subtitle">Mine resources, build your colony, and survive asteroid storms!</p>
-        </header>
-        
-        <div class="game-area">
-            <div class="resource-section">
-                <div class="stats">
-                    <div class="stat">
-                        <div>ENERGY</div>
-                        <div class="stat-value" id="energy">0</div>
-                    </div>
-                    <div class="stat">
-                        <div>PROTECTION</div>
-                        <div class="stat-value" id="protection">0</div>
-                    </div>
-                    <div class="stat">
-                        <div>ENERGY/SEC</div>
-                        <div class="stat-value" id="energyPerSec">0</div>
-                    </div>
-                </div>
-                
-                <div class="click-area">
-                    <div id="planet">MINE</div>
-                    <div class="planet-details">Click to harvest energy</div>
-                </div>
-                
-                <div class="progress-container">
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="colony-progress"></div>
-                    </div>
-                    <div class="progress-label">
-                        <span>Colony Progress</span>
-                        <span id="progress-percent">0%</span>
-                    </div>
-                </div>
-                
-                <div class="colony-display">
-                    <div class="colony-building" id="colony-pod">
-                        <div class="colony-icon"><i class="fas fa-campground"></i></div>
-                        <div>POD</div>
-                    </div>
-                    <div class="colony-building" id="colony-farms">
-                        <div class="colony-icon"><i class="fas fa-seedling"></i></div>
-                        <div>FARMS</div>
-                    </div>
-                    <div class="colony-building" id="colony-city">
-                        <div class="colony-icon"><i class="fas fa-city"></i></div>
-                        <div>CITY</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="buildings-section">
-                <h2><i class="fas fa-hard-hat"></i> BUILDINGS</h2>
-                <div class="buildings-grid" id="buildings-container">
-                    <!-- Buildings will be added here dynamically -->
-                </div>
-            </div>
-            
-            <div class="event-section">
-                <div class="event-header">
-                    <h2><i class="fas fa-meteor"></i> SPACE EVENTS</h2>
-                    <button class="btn btn-warning" id="force-event">Test Event</button>
-                </div>
-                <div id="event-display">
-                    All systems operational. No events detected.
-                </div>
-            </div>
-        </div>
-        
-        <div class="upgrade-section">
-            <h2><i class="fas fa-rocket"></i> UPGRADES</h2>
-            <p>Unlock more powerful upgrades as your colony grows!</p>
-            <div id="upgrades-container">
-                <!-- Upgrades will be added here dynamically -->
-            </div>
-        </div>
-    </div>
-    
-    <div class="notification" id="notification">
-        <div id="notification-content"></div>
-    </div>
-     <style>
+    <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Orbitron', sans-serif;
+            font-family: 'Exo 2', sans-serif;
         }
         
         body {
             background: linear-gradient(135deg, #0a0a2a, #1a1a4a);
             color: #fff;
             min-height: 100vh;
-            overflow: hidden;
+            overflow-x: hidden;
             position: relative;
         }
         
@@ -128,7 +39,7 @@
         }
         
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
         }
@@ -141,6 +52,22 @@
             border-radius: 15px;
             border: 1px solid #4d4dff;
             box-shadow: 0 0 20px rgba(77, 77, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .mission-control {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(77, 255, 219, 0.1);
+            border: 1px solid #4dffdb;
+            border-radius: 10px;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         h1 {
@@ -149,11 +76,14 @@
             color: #4dffdb;
             text-shadow: 0 0 10px rgba(77, 255, 219, 0.7);
             letter-spacing: 3px;
+            font-family: 'Orbitron', sans-serif;
         }
         
         .subtitle {
             font-size: 1.2rem;
             color: #aaffff;
+            max-width: 800px;
+            margin: 0 auto;
         }
         
         .game-area {
@@ -171,6 +101,85 @@
             padding: 20px;
             border: 1px solid #00ccff;
             box-shadow: 0 0 15px rgba(0, 204, 255, 0.4);
+            position: relative;
+        }
+        
+        .planet-display {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            margin: 20px 0;
+            border-radius: 20px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .planet-view {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.5s ease;
+            box-shadow: 0 0 30px rgba(77, 121, 255, 0.7);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(0,0,0,0.8);
+        }
+        
+        .planet-mars {
+            background: radial-gradient(circle at 30% 30%, #c1440e, #8c2d04);
+        }
+        
+        .planet-mars-colonized {
+            background: radial-gradient(circle at 30% 30%, #4CAF50, #2E7D32);
+            box-shadow: 0 0 50px rgba(76, 175, 80, 0.7);
+        }
+        
+        .planet-moon {
+            background: radial-gradient(circle at 30% 30%, #d0d0d0, #9e9e9e);
+        }
+        
+        .planet-moon-colonized {
+            background: radial-gradient(circle at 30% 30%, #E0E0E0, #BDBDBD);
+            box-shadow: 0 0 50px rgba(224, 224, 224, 0.7);
+        }
+        
+        .planet-europa {
+            background: radial-gradient(circle at 30% 30%, #5e9bff, #1a5fb4);
+        }
+        
+        .planet-europa-colonized {
+            background: radial-gradient(circle at 30% 30%, #64B5F6, #1976D2);
+            box-shadow: 0 0 50px rgba(100, 181, 246, 0.7);
+        }
+        
+        .planet-titan {
+            background: radial-gradient(circle at 30% 30%, #ff9800, #f57c00);
+        }
+        
+        .planet-titan-colonized {
+            background: radial-gradient(circle at 30% 30%, #FFB74D, #FF9800);
+            box-shadow: 0 0 50px rgba(255, 183, 77, 0.7);
+        }
+        
+        .planet-details {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
         }
         
         .stats {
@@ -181,54 +190,47 @@
             background: rgba(0, 20, 40, 0.7);
             border-radius: 10px;
             border: 1px solid #4d4dff;
+            flex-wrap: wrap;
+            gap: 10px;
         }
         
         .stat {
             text-align: center;
+            min-width: 120px;
         }
         
         .stat-value {
             font-size: 1.8rem;
             color: #4dffdb;
             font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
         }
         
-        .click-area {
-            text-align: center;
+        .progress-container {
             margin: 20px 0;
         }
         
-        #planet {
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle at 30% 30%, #4d79ff, #003399);
-            border-radius: 50%;
-            margin: 0 auto;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 0 30px rgba(77, 121, 255, 0.7);
-            transition: transform 0.1s ease;
-        }
-        
-        #planet:hover {
-            box-shadow: 0 0 40px rgba(77, 121, 255, 0.9);
-        }
-        
-        #planet:active {
-            transform: scale(0.95);
-        }
-        
-        .planet-details {
-            position: absolute;
-            bottom: -30px;
-            left: 0;
-            right: 0;
-            height: 30px;
+        .progress-bar {
+            height: 25px;
             background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #00ccff, #0066ff);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .progress-label {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 1rem;
+            color: #aaffff;
         }
         
         .buildings-section {
@@ -241,9 +243,17 @@
             box-shadow: 0 0 15px rgba(255, 204, 0, 0.4);
         }
         
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
         .buildings-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 15px;
             margin-top: 20px;
         }
@@ -256,6 +266,7 @@
             border: 1px solid #4dffdb;
             transition: all 0.3s ease;
             cursor: pointer;
+            position: relative;
         }
         
         .building:hover {
@@ -264,9 +275,15 @@
             background: rgba(0, 40, 80, 0.8);
         }
         
+        .building.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
         .building-icon {
             font-size: 2.5rem;
             margin-bottom: 10px;
+            color: #4dffdb;
         }
         
         .building-name {
@@ -343,6 +360,7 @@
             margin: 5px;
             font-weight: bold;
             letter-spacing: 1px;
+            font-family: 'Orbitron', sans-serif;
         }
         
         .btn:hover {
@@ -364,39 +382,81 @@
             box-shadow: 0 0 15px rgba(255, 153, 0, 0.7);
         }
         
-        .upgrade-section {
-            margin-top: 20px;
-            padding: 15px;
-            background: rgba(0, 20, 40, 0.7);
-            border-radius: 10px;
+        .btn-success {
+            background: linear-gradient(to bottom, #4CAF50, #2E7D32);
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(to bottom, #66BB6A, #388E3C);
+            box-shadow: 0 0 15px rgba(76, 175, 80, 0.7);
+        }
+        
+        .planets-section {
+            background: rgba(0, 10, 30, 0.8);
+            border-radius: 15px;
+            padding: 20px;
             border: 1px solid #ff00ff;
             box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+            margin-top: 20px;
         }
         
-        .progress-container {
-            margin: 20px 0;
+        .planets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
         }
         
-        .progress-bar {
-            height: 20px;
-            background: rgba(0, 0, 0, 0.5);
+        .planet-card {
+            background: rgba(0, 30, 60, 0.7);
             border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #9c27b0;
+            transition: all 0.3s ease;
+            position: relative;
             overflow: hidden;
         }
         
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(to right, #00ccff, #0066ff);
-            width: 0%;
-            transition: width 0.5s ease;
+        .planet-card.locked {
+            opacity: 0.6;
+            filter: grayscale(0.8);
         }
         
-        .progress-label {
+        .planet-card.active {
+            border: 2px solid #4dffdb;
+            box-shadow: 0 0 20px rgba(77, 255, 219, 0.5);
+        }
+        
+        .planet-header {
             display: flex;
-            justify-content: space-between;
-            margin-top: 5px;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .planet-icon {
+            font-size: 2.5rem;
+            color: #9c27b0;
+        }
+        
+        .planet-title {
+            font-size: 1.4rem;
+            color: #e91e63;
+            font-family: 'Orbitron', sans-serif;
+        }
+        
+        .planet-description {
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
             font-size: 0.9rem;
-            color: #aaffff;
+        }
+        
+        .planet-progress {
+            color: #4dffdb;
+            font-weight: bold;
+            margin: 10px 0;
         }
         
         .notification {
@@ -410,10 +470,19 @@
             transform: translateX(200%);
             transition: transform 0.5s ease;
             z-index: 100;
+            max-width: 350px;
         }
         
         .notification.show {
             transform: translateX(0);
+        }
+        
+        .notification.warning {
+            border-left: 5px solid #ff9900;
+        }
+        
+        .notification.success {
+            border-left: 5px solid #4CAF50;
         }
         
         .colony-display {
@@ -427,6 +496,7 @@
         .colony-building {
             position: relative;
             text-align: center;
+            min-width: 100px;
         }
         
         .colony-icon {
@@ -439,6 +509,25 @@
             opacity: 1;
         }
         
+        .colony-label {
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .resource-feedback {
+            position: absolute;
+            font-size: 1.2rem;
+            font-weight: bold;
+            pointer-events: none;
+            animation: floatUp 1s ease-out;
+            color: #4dffdb;
+        }
+        
+        @keyframes floatUp {
+            0% { transform: translateY(0); opacity: 1; }
+            100% { transform: translateY(-50px); opacity: 0; }
+        }
+        
         @media (max-width: 768px) {
             .game-area {
                 flex-direction: column;
@@ -447,10 +536,124 @@
             h1 {
                 font-size: 2rem;
             }
+            
+            .stats {
+                justify-content: center;
+            }
         }
     </style>
-
-    <script src="script.js"> </script>
+</head>
+<body>
+    <!-- Background stars -->
+    <div class="stars"></div>
     
-</body>
-</html>
+    <div class="container">
+        <header>
+            <h1>SPACE COLONY CLICKER</h1>
+            <p class="subtitle">Establish your colony on Mars, then expand to other celestial bodies!</p>
+            <div class="mission-control">
+                <i class="fas fa-satellite"></i>
+                <span>Mission Control: <span id="current-planet">Mars</span></span>
+            </div>
+        </header>
+        
+        <div class="game-area">
+            <div class="resource-section">
+                <div class="stats">
+                    <div class="stat">
+                        <div>ENERGY</div>
+                        <div class="stat-value" id="energy">100</div>
+                    </div>
+                    <div class="stat">
+                        <div>PROTECTION</div>
+                        <div class="stat-value" id="protection">0</div>
+                    </div>
+                    <div class="stat">
+                        <div>ENERGY/SEC</div>
+                        <div class="stat-value" id="energyPerSec">0</div>
+                    </div>
+                    <div class="stat">
+                        <div>COLONISTS</div>
+                        <div class="stat-value" id="colonists">0</div>
+                    </div>
+                </div>
+                
+                <div class="planet-display">
+                    <div class="planet-view planet-mars" id="planet">MARS COLONY</div>
+                    <div class="planet-details">Click the planet to harvest energy</div>
+                </div>
+                <!-- ...existing code... -->
+<div class="planet-details">
+    Click the planet to harvest energy
+    <span id="planet-difficulty"></span>
+</div>
+<!-- ...existing code... -->
+                
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="colony-progress"></div>
+                    </div>
+                    <div class="progress-label">
+                        <span>Mars Colony Progress</span>
+                        <span id="progress-percent">0%</span>
+                    </div>
+                </div>
+                
+                <div class="colony-display">
+                    <div class="colony-building" id="colony-pod">
+                        <div class="colony-icon"><i class="fas fa-campground"></i></div>
+                        <div class="colony-label">POD</div>
+                    </div>
+                    <div class="colony-building" id="colony-farms">
+                        <div class="colony-icon"><i class="fas fa-seedling"></i></div>
+                        <div class="colony-label">FARMS</div>
+                    </div>
+                    <div class="colony-building" id="colony-city">
+                        <div class="colony-icon"><i class="fas fa-city"></i></div>
+                        <div class="colony-label">CITY</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="buildings-section">
+                <div class="section-title">
+                    <i class="fas fa-hard-hat"></i>
+                    <h2>COLONY BUILDINGS</h2>
+                </div>
+                <div class="buildings-grid" id="buildings-container">
+                    <!-- Buildings will be added here dynamically -->
+                </div>
+            </div>
+            
+            <div class="event-section">
+                <div class="event-header">
+                    <div class="section-title">
+                        <i class="fas fa-meteor"></i>
+                        <h2>SPACE EVENTS</h2>
+                    </div>
+                    <button class="btn btn-warning" id="force-event">Test Event</button>
+                </div>
+                <div id="event-display">
+                    All systems operational. No events detected.
+                </div>
+            </div>
+        </div>
+        
+        <div class="planets-section" id="planets-section">
+            <div class="section-title">
+                <i class="fas fa-globe-americas"></i>
+                <h2>PLANETARY COLONIES</h2>
+            </div>
+            <p>Complete the Mars colony to unlock new planets!</p>
+            <div class="planets-grid" id="planets-container">
+                <!-- Planets will be added here dynamically -->
+            </div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification">
+        <div id="notification-content"></div>
+        
+    </div>
+<script src="script.js"></script>
+    </body>
